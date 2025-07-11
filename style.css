@@ -1,55 +1,134 @@
+/* --------------------  RESET  -------------------- */
 * {
-  padding: 0;
   margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
-body {
-  background-color: #dbe9ff;
+
+/* --------------------  THEME  -------------------- */
+:root {
+  /* brand pinks */
+  --pink-main: #e91e63;     /* primary */
+  --pink-light: #ffe4ec;    /* page/bg */
+  --pink-lighter: #fff0f5;  /* container */
+  --pink-hover: #f8bbd0;    /* button hover */
+  --pink-shadow: rgba(233, 30, 99, 0.4);
 }
+
+/* --------------------  PAGE  -------------------- */
+body {
+  background: linear-gradient(135deg, var(--pink-light) 0%, var(--pink-hover) 100%);
+  font-family: "Poppins", sans-serif;
+  min-height: 100vh;
+}
+
+/* --------------------  CONTAINER  -------------------- */
 .container {
-  background-color: #f0f9ff;
   position: absolute;
-  transform: translate(-50%, -50%);
   left: 50%;
   top: 50%;
+  transform: translate(-50%, -50%);
   width: min(90%, 31.25em);
   padding: 3.75em 0;
+  background: var(--pink-lighter);
   border-radius: 0.8em;
-  box-shadow: 0 1.97em 3.75em rgba(1, 87, 185, 0.2);
+  box-shadow: 0 1.97em 3.75em var(--pink-shadow);
 }
+
+/* --------------------  TIMER DISPLAY  -------------------- */
 .timer-display {
   position: relative;
-  width: 110%;
-  background-color: #3c98ff;
   left: -5%;
+  width: 110%;
   padding: 1em 0;
+  background: var(--pink-main);
+  color: var(--pink-lighter);
   font-family: "Roboto Mono", monospace;
-  color: #f0f9ff;
   font-size: 2.5em;
   display: flex;
-  align-items: center;
   justify-content: space-around;
   border-radius: 0.3em;
-  box-shadow: 0 0.5em 1em rgba(1, 87, 185, 0.2);
+  box-shadow: 0 0.5em 1em var(--pink-shadow);
+
+  /* entrance animation */
+  animation: slideDown 0.5s ease forwards;
+  opacity: 0;
 }
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* digits “flash” when they change (JS toggles .flash) */
+.timer-display.flash {
+  animation: flash 0.15s ease;
+}
+
+@keyframes flash {
+  from {
+    filter: brightness(1.2);
+  }
+  to {
+    filter: brightness(1);
+  }
+}
+
+/* --------------------  BUTTONS  -------------------- */
 .buttons {
   width: 80%;
-  margin: 3.8em auto 0 auto;
+  margin: 3.8em auto 0;
   display: flex;
   justify-content: space-around;
 }
+
 .buttons button {
   font-size: 1.12em;
-  background-color: #dbe9ff;
-  color: #3c98ff;
-  border: none;
-  font-family: "Poppins", sans-serif;
-  border-radius: 0.5em;
   padding: 1em 1.5em;
+  border: none;
+  border-radius: 0.5em;
   cursor: pointer;
   outline: none;
+  background: var(--pink-light);
+  color: var(--pink-main);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
+
+/* grow + glow on hover */
+.buttons button:hover {
+  transform: scale(1.05);
+  background: var(--pink-hover);
+  box-shadow: 0 0.5em 1em var(--pink-shadow);
+}
+
+/* press‑in on click */
+.buttons button:active {
+  transform: scale(0.95);
+}
+
+/* --------------------  START BUTTON PULSE  -------------------- */
 #start-timer {
-  background-color: #3c98ff;
-  color: #f0f9ff;
+  background: var(--pink-main);
+  color: var(--pink-lighter);
+}
+
+/* idle pulse (JS adds/removes .pulsing) */
+#start-timer.pulsing {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(233, 30, 99, 0.0);
+  }
+  50% {
+    box-shadow: 0 0 0 0.8em rgba(233, 30, 99, 0.25);
+  }
 }
